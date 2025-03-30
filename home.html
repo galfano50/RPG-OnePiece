@@ -41,8 +41,9 @@
     <script>
         // Verificar se o usuário está autenticado antes de carregar o conteúdo
         auth.onAuthStateChanged((user) => {
-            if (!user) {
-                // Se não houver usuário autenticado, redireciona para o login
+            // Verifica se o usuário não está autenticado ou está na página de login
+            if (!user && window.location.pathname !== "/index.html") {
+                // Redireciona para o login caso não esteja autenticado
                 window.location.href = "index.html";
             }
         });
