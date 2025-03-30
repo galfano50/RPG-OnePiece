@@ -78,7 +78,14 @@
         function registerUser() {
             const email = document.getElementById("register-email").value;
             const password = document.getElementById("register-password").value;
-            register(email, password);
+        
+            // Verifique se o email e senha não estão vazios antes de tentar registrar
+            if (email === "" || password === "") {
+                alert("Preencha o e-mail e a senha.");
+                return;
+            }
+        
+            register(email, password);  // Chama a função de registro do Firebase
         }
         
         function loginUser() {
