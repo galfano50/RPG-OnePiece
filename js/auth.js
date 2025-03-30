@@ -1,9 +1,12 @@
+// Importar Firebase Auth (versão 10)
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+
 // Configurar Firebase Auth
-const auth = firebase.auth();
+const auth = getAuth();
 
 // Registrar novo usuário
 function register(email, password) {
-    auth.createUserWithEmailAndPassword(email, password)
+    createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             console.log("Usuário registrado:", userCredential.user);
         })
@@ -14,7 +17,7 @@ function register(email, password) {
 
 // Fazer login
 function login(email, password) {
-    auth.signInWithEmailAndPassword(email, password)
+    signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             console.log("Usuário logado:", userCredential.user);
         })
@@ -25,7 +28,7 @@ function login(email, password) {
 
 // Fazer logout
 function logout() {
-    auth.signOut()
+    signOut(auth)
         .then(() => {
             console.log("Usuário deslogado");
         })

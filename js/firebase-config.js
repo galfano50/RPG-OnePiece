@@ -1,4 +1,8 @@
 // Configuração do Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+
+// Configuração do Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyD_vM-tbAj_Gc2gv1XBa6GMOYpe9zNSv7s",
     authDomain: "bar-do-truta-rpg-online.firebaseapp.com",
@@ -10,6 +14,8 @@ const firebaseConfig = {
 };
 
 // Inicializar Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const rtdb = firebase.database();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Expondo o auth para uso em outros arquivos
+window.auth = auth;

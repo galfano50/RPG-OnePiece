@@ -3,45 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro e Login</title>
+    <title>Bar do Truta RPG</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
-    <script src="js/firebase-config.js" defer></script>
-    <script src="js/auth.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h2>Registro</h2>
-        <input type="email" id="register-email" placeholder="Email">
-        <input type="password" id="register-password" placeholder="Senha">
-        <button onclick="registerUser()">Registrar</button>
-        
-        <h2>Login</h2>
-        <input type="email" id="login-email" placeholder="Email">
-        <input type="password" id="login-password" placeholder="Senha">
-        <button onclick="loginUser()">Entrar</button>
-    </div>
+    <header>
+        <h1>Bar do Truta RPG</h1>
+        <button onclick="logout()">Sair</button>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="Armas.html" target="_blank">Armas</a></li>
+            <li><a href="Jogabilidade.html" target="_blank">Jogabilidade</a></li>
+            <li><a href="Escala.html" target="_blank">Escala</a></li>
+            <li><a href="Estilos.html" target="_blank">Estilos</a></li>
+            <li><a href="Ficha.html" target="_blank">Ficha</a></li>
+            <li><a href="Ficha-Navio.html" target="_blank">Ficha-Navio</a></li>
+            <li><a href="Hakis.html" target="_blank">Hakis</a></li>
+            <li><a href="Individualidades.html" target="_blank">Individualidades</a></li>
+            <li><a href="Regras.html" target="_blank">Regras</a></li>
+            <li><a href="Navios.html" target="_blank">Navios</a></li>
+            <li><a href="PassagemNivel.html" target="_blank">Passagem de Nível</a></li>
+            <li><a href="Racas.html" target="_blank">Raças</a></li>
+            <li><a href="Ferreiro.html" target="_blank">Ferreiro</a></li>
+            <li><a href="Status.html" target="_blank">Status</a></li>
+            <li><a href="Treinos.html" target="_blank">Treinos</a></li>
+            <li><a href="Tecnicas.html" target="_blank">Técnicas</a></li>
+        </ul>
+    </nav>
 
     <script>
-        function registerUser() {
-            const email = document.getElementById("register-email").value;
-            const password = document.getElementById("register-password").value;
-            register(email, password);
-        }
-        
-        function loginUser() {
-            const email = document.getElementById("login-email").value;
-            const password = document.getElementById("login-password").value;
-            login(email, password);
-        }
-
-        // Redirecionar para index.html após login bem-sucedido
+        // Verificar se o usuário está autenticado antes de carregar o conteúdo
         auth.onAuthStateChanged((user) => {
-            if (user) {
+            if (!user) {
+                // Se não houver usuário autenticado, redireciona para o login
                 window.location.href = "index.html";
             }
         });
+
+        // Função de logout
+        function logout() {
+            firebase.auth().signOut()
+                .then(() => {
+                    // Após o logout, redireciona para a página de login
+                    window.location.href = "index.html";
+                })
+                .catch((error) => {
+                    console.error("Erro ao deslogar:", error.message);
+                });
+        }
     </script>
 </body>
 </html>
