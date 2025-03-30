@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
-        <script type="module" src="js/firebase-config.js"></script>
-        <script type="module" src="js/auth.js"></script>    
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
     <style>
         body {
             background-color: #1a1a1a;
@@ -78,13 +78,13 @@
         function registerUser() {
             const email = document.getElementById("register-email").value;
             const password = document.getElementById("register-password").value;
-        
+
             // Verifique se o email e senha não estão vazios antes de tentar registrar
             if (email === "" || password === "") {
                 alert("Preencha o e-mail e a senha.");
                 return;
             }
-        
+
             register(email, password);  // Chama a função de registro do Firebase
         }
         
@@ -94,10 +94,16 @@
             login(email, password);
         }
 
-        // Redirecionar para home.html após login bem-sucedido
+        // Verificar se o usuário está logado ao carregar a página
         auth.onAuthStateChanged((user) => {
             if (user) {
+                // Se estiver logado, redirecionar para home.html
                 window.location.href = "home.html";
+            } else {
+                // Se não estiver logado, redirecionar para index.html
+                if (window.location.pathname !== '/index.html' && window.location.pathname !== '/') {
+                    window.location.href = "index.html";
+                }
             }
         });
     </script>
