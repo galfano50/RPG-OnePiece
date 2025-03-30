@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro e Login</title>
+    <title>Registro e Login</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
@@ -12,10 +12,10 @@
 </head>
 <body>
     <div class="container">
-        <h2>Cadastro</h2>
+        <h2>Registro</h2>
         <input type="email" id="register-email" placeholder="Email">
         <input type="password" id="register-password" placeholder="Senha">
-        <button onclick="registerUser()">Cadastrar</button>
+        <button onclick="registerUser()">Registrar</button>
         
         <h2>Login</h2>
         <input type="email" id="login-email" placeholder="Email">
@@ -24,27 +24,17 @@
     </div>
 
     <script>
-        // Função para registrar um novo usuário
         function registerUser() {
             const email = document.getElementById("register-email").value;
             const password = document.getElementById("register-password").value;
             register(email, password);
         }
-
-        // Função para logar o usuário
+        
         function loginUser() {
             const email = document.getElementById("login-email").value;
             const password = document.getElementById("login-password").value;
             login(email, password);
         }
-
-        // Monitorar o estado da autenticação
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                // Redirecionar para home.html após login bem-sucedido
-                window.location.href = "home.html";
-            }
-        });
     </script>
 </body>
 </html>
