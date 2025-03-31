@@ -1,6 +1,6 @@
 // Configuração do Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -17,5 +17,5 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Expondo o auth para uso em outros arquivos
-window.auth = auth;
+// Exportando as instâncias para uso em outros arquivos
+export { app, auth };
