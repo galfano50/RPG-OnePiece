@@ -5,61 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro e Login</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
-    <script type="module" src="js/firebase-config.js"></script>
-    <script type="module" src="js/auth.js"></script>
-    <style>
-        body {
-            background-color: #1a1a1a;
-            color: #d4af37;
-            font-family: 'Pirata One', cursive;
-            text-align: center;
-            padding: 50px;
-        }
+    
+    <!-- Importação do Firebase -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
+
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD_vM-tbAj_Gc2gv1XBa6GMOYpe9zNSv7s",
+            authDomain: "bar-do-truta-rpg-online.firebaseapp.com",
+            databaseURL: "https://bar-do-truta-rpg-online-default-rtdb.firebaseio.com",
+            projectId: "bar-do-truta-rpg-online",
+            storageBucket: "bar-do-truta-rpg-online.appspot.com",
+            messagingSenderId: "109187771317",
+            appId: "1:109187771317:web:13add20ef2fa8da2da07fc"
+        };
         
-        .container {
-            background: rgba(0, 0, 0, 0.8);
-            border: 3px solid #d4af37;
-            padding: 20px;
-            width: 300px;
-            margin: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 15px #d4af37;
-        }
+        // Inicializa o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
         
-        input {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 2px solid #d4af37;
-            background: black;
-            color: #d4af37;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+        // Função de registro
+        window.registerUser = function() {
+            const email = document.getElementById("register-email").value;
+            const password = document.getElementById("register-password").value;
+            
+            if (email === "" || password === "") {
+                alert("Preencha o e-mail e a senha.");
+                return;
+            }
+            
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    console.log("Usuário registrado:", userCredential.user);
+                    alert("Usuário registrado com sucesso.");
+                })
+                .catch((error) => {
+                    console.error("Erro ao registrar:", error.message);
+                    alert(error.message);
+                });
+        };
         
-        button {
-            background: #d4af37;
-            color: black;
-            border: none;
-            padding: 10px 20px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        
-        button:hover {
-            background: #b8860b;
-            color: white;
-        }
-        
-        h2 {
-            text-shadow: 2px 2px black;
-        }
-    </style>
+        // Função de login
+        window.loginUser = function() {
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+            
+            if (email === "" || password === "") {
+                alert("Preencha o e-mail e a senha.");
+                return;
+            }
+            
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    console.log("Usuário logado:", userCredential.user);
+                })
+                .catch((error) => {
+                    console.error("Erro ao logar:", error.message);
+                    alert(error.message);
+                });
+        };
+
+        // Redirecionamento automático após login
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.location.href = "home.html";
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -73,39 +87,5 @@
         <input type="password" id="login-password" placeholder="Senha">
         <button onclick="loginUser()">Entrar</button>
     </div>
-
-    <script>
-        function registerUser() {
-            const email = document.getElementById("register-email").value;
-            const password = document.getElementById("register-password").value;
-
-            // Verifique se o email e senha não estão vazios antes de tentar registrar
-            if (email === "" || password === "") {
-                alert("Preencha o e-mail e a senha.");
-                return;
-            }
-
-            register(email, password);  // Chama a função de registro do Firebase
-        }
-        
-        function loginUser() {
-            const email = document.getElementById("login-email").value;
-            const password = document.getElementById("login-password").value;
-            login(email, password);
-        }
-
-        // Verificar se o usuário está logado ao carregar a página
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                // Se estiver logado, redirecionar para home.html
-                window.location.href = "home.html";
-            } else {
-                // Se não estiver logado, redirecionar para index.html
-                if (window.location.pathname !== '/index.html' && window.location.pathname !== '/') {
-                    window.location.href = "index.html";
-                }
-            }
-        });
-    </script>
 </body>
 </html>

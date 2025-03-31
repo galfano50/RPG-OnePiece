@@ -1,6 +1,7 @@
 // Importar Firebase Auth
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
+// Inicializar autenticação
 const auth = getAuth();
 
 // Registrar novo usuário
@@ -10,7 +11,11 @@ function register(email, password) {
             console.log("Usuário registrado:", userCredential.user);
         })
         .catch((error) => {
-            console.error("Erro ao registrar:", error.message);
+            if (error.code === "auth/email-already-in-use") {
+                console.error("Erro: O email já está em uso.");
+            } else {
+                console.error("Erro ao registrar:", error.message);
+            }
         });
 }
 
@@ -30,6 +35,7 @@ function logout() {
     signOut(auth)
         .then(() => {
             console.log("Usuário deslogado");
+            window.location.href = "index.html"; // Redireciona para login após logout
         })
         .catch((error) => {
             console.error("Erro ao deslogar:", error.message);
@@ -42,16 +48,16 @@ window.login = login;
 window.logout = logout;
 
 // Verificar se o usuário está logado ao carregar o site
-auth.onAuthStateChanged((user) => {
-    if (!user) {
-        // Se não houver um usuário logado, redirecionar para a página de login/cadastro
-        if (window.location.pathname !== "/index.html" && window.location.pathname !== "/") {
-            window.location.href = "index.html";  // Redireciona para o login/cadastro
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log("Usuário logado:", user);
+        if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
+            window.location.href = "home.html"; // Redireciona para a home se já estiver logado
         }
     } else {
-        // Se o usuário estiver logado, redirecionar para a página inicial ou home
-        if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
-            window.location.href = "home.html";  // Redireciona para o home se já estiver logado
+        console.log("Nenhum usuário logado.");
+        if (window.location.pathname !== "/index.html" && window.location.pathname !== "/") {
+            window.location.href = "index.html"; // Redireciona para login se não estiver logado
         }
     }
 });
